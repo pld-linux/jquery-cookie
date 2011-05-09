@@ -1,14 +1,13 @@
 %define		plugin	cookie
 Summary:	jQuery Cookie plugin
 Name:		jquery-%{plugin}
-# no version known, so pick the lowest
-Version:	0.1
+Version:	1.0
 Release:	1
 License:	MIT / GPL
 Group:		Applications/WWW
 Source0:	https://github.com/carhartl/jquery-cookie/tarball/master#/%{plugin}.tgz
-# Source0-md5:	06563fe2bd9cf5fc348bae666205b901
-URL:		https://github.com/carhartl/jquery-cookie
+# Source0-md5:	d1be69258e0b0745e871b067fbf6cfac
+URL:		http://plugins.jquery.com/project/Cookie
 BuildRequires:	js
 BuildRequires:	rpmbuild(macros) > 1.268
 BuildRequires:	yuicompressor
@@ -35,7 +34,7 @@ js -C -f build/jquery.cookie.js
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_appdir}
-cp -a build/jquery.cookie.js $RPM_BUILD_ROOT%{_appdir}/%{plugin}.js
+cp -p build/jquery.cookie.js $RPM_BUILD_ROOT%{_appdir}/%{plugin}.js
 
 %clean
 rm -rf $RPM_BUILD_ROOT
