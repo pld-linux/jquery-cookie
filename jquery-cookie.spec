@@ -2,10 +2,11 @@
 Summary:	jQuery Cookie plugin
 Name:		jquery-%{plugin}
 Version:	1.0
-Release:	1
+Release:	2
 License:	MIT / GPL
 Group:		Applications/WWW
 Source0:	https://github.com/carhartl/jquery-cookie/tarball/master#/%{plugin}.tgz
+Patch0:		issue-13.patch
 # Source0-md5:	d1be69258e0b0745e871b067fbf6cfac
 URL:		http://plugins.jquery.com/project/Cookie
 BuildRequires:	js
@@ -24,6 +25,7 @@ cookies.
 %prep
 %setup -qc
 mv *-%{name}-*/* .
+%patch0 -p1
 
 %build
 install -d build
