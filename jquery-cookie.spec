@@ -1,13 +1,12 @@
 %define		plugin	cookie
 Summary:	jQuery Cookie plugin
 Name:		jquery-%{plugin}
-Version:	1.0
-Release:	2
+Version:	1.1
+Release:	1
 License:	MIT / GPL
 Group:		Applications/WWW
-Source0:	https://github.com/carhartl/jquery-cookie/tarball/master#/%{plugin}.tgz
-Patch0:		issue-13.patch
-# Source0-md5:	d1be69258e0b0745e871b067fbf6cfac
+Source0:	https://github.com/carhartl/jquery-cookie/tarball/v1.1/%{name}-%{version}.tgz
+# Source0-md5:	18f71cea2801bcbe1da2aa810c73833c
 URL:		http://plugins.jquery.com/project/Cookie
 BuildRequires:	js
 BuildRequires:	rpmbuild(macros) > 1.268
@@ -25,22 +24,25 @@ cookies.
 %prep
 %setup -qc
 mv *-%{name}-*/* .
-%patch0 -p1
 
 %build
 install -d build
 # compress .js
-yuicompressor --charset UTF-8 jquery.cookie.js -o build/jquery.cookie.js
+%{__sed} -e 's,/\*!,/*,' jquery.cookie.js > build/tmp.js
+yuicompressor --charset UTF-8 build/tmp.js -o build/jquery.cookie.js
 js -C -f build/jquery.cookie.js
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_appdir}
-cp -p build/jquery.cookie.js $RPM_BUILD_ROOT%{_appdir}/%{plugin}.js
+cp -p jquery.cookie.js $RPM_BUILD_ROOT%{_appdir}/%{plugin}-%{version}.js
+cp -p build/jquery.cookie.js $RPM_BUILD_ROOT%{_appdir}/%{plugin}-%{version}.min.js
+ln -s %{plugin}-%{version}.min.js $RPM_BUILD_ROOT%{_appdir}/%{plugin}.js
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
+%doc README.md CHANGELOG.md
 %{_appdir}
