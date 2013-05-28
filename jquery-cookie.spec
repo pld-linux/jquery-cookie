@@ -10,7 +10,7 @@ Source0:	https://github.com/carhartl/jquery-cookie/archive/v%{version}.tar.gz
 URL:		http://plugins.jquery.com/cookie/
 BuildRequires:	js
 BuildRequires:	rpmbuild(macros) > 1.268
-BuildRequires:	yuicompressor
+BuildRequires:	closure-compiler
 Requires:	jquery >= 1.3
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -27,9 +27,15 @@ cookies.
 %build
 install -d build
 # compress .js
-%{__sed} -e 's,/\*!,/*,' jquery.cookie.js > build/tmp.js
-yuicompressor --charset UTF-8 build/tmp.js -o build/jquery.cookie.js
-js -C -f build/jquery.cookie.js
+for js in jquery.cookie.js; do
+	out=build/${js#*/jquery.}
+%if 0%{!?debug:1}
+	closure-compiler --js $js --charset UTF-8 --js_output_file $out
+	js -C -f $out
+%else
+	cp -p $js $out
+%endif
+done
 
 %install
 rm -rf $RPM_BUILD_ROOT
