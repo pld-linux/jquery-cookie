@@ -1,13 +1,13 @@
 %define		plugin	cookie
 Summary:	jQuery Cookie plugin
 Name:		jquery-%{plugin}
-Version:	1.1
+Version:	1.2.0
 Release:	1
 License:	MIT / GPL
 Group:		Applications/WWW
-Source0:	https://github.com/carhartl/jquery-cookie/tarball/v1.1/%{name}-%{version}.tgz
-# Source0-md5:	18f71cea2801bcbe1da2aa810c73833c
-URL:		http://plugins.jquery.com/project/Cookie
+Source0:	https://github.com/carhartl/jquery-cookie/archive/v%{version}.tar.gz
+# Source0-md5:	573ad639cbfeb66760300dfaaff95322
+URL:		http://plugins.jquery.com/cookie/
 BuildRequires:	js
 BuildRequires:	rpmbuild(macros) > 1.268
 BuildRequires:	yuicompressor
@@ -22,8 +22,7 @@ A simple, lightweight utility plugin for reading, writing and deleting
 cookies.
 
 %prep
-%setup -qc
-mv *-%{name}-*/* .
+%setup -q
 
 %build
 install -d build
@@ -38,6 +37,8 @@ install -d $RPM_BUILD_ROOT%{_appdir}
 cp -p jquery.cookie.js $RPM_BUILD_ROOT%{_appdir}/%{plugin}-%{version}.js
 cp -p build/jquery.cookie.js $RPM_BUILD_ROOT%{_appdir}/%{plugin}-%{version}.min.js
 ln -s %{plugin}-%{version}.min.js $RPM_BUILD_ROOT%{_appdir}/%{plugin}.js
+ln -s %{plugin}-%{version}.min.js $RPM_BUILD_ROOT%{_appdir}/%{plugin}.min.js
+ln -s %{plugin}-%{version}.js $RPM_BUILD_ROOT%{_appdir}/%{plugin}.src.js
 
 %clean
 rm -rf $RPM_BUILD_ROOT
